@@ -16,7 +16,7 @@ class PrototypesController < ApplicationController
     if @prototype.save
       redirect_to root_path, notice:
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -26,14 +26,11 @@ class PrototypesController < ApplicationController
   end
 
   def edit
-    unless current_user == @prototype.user
-      redirect_to root_path
-    end
   end
 
   def update
     if @prototype.update(prototype_params)
-      redirect_to prototype_path(@prototype)
+      redirect_to prototype_path(@prototype), notice:
     else
       render :edit, status: :unprocessable_entity
     end
@@ -41,7 +38,7 @@ class PrototypesController < ApplicationController
 
   def destroy
     if @prototype.destroy
-      redirect_to root_path
+      redirect_to root_path, notice:
     else
       redirect_to root_path
     end
